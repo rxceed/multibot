@@ -75,7 +75,12 @@ void motor_2_control(char state)
 void wifi_init()
 {
   WiFi.softAP(SSID, PASSWORD);
-  WiFi.softAPConfig(IPAddress(192,168,1,1), IPAddress(192,168,1,1), IPAddress(255,255,255,0));
+  WiFi.softAPConfig(IPAddress(192,168,4,1), IPAddress(192,168,4,1), IPAddress(255,255,255,0));
+}
+
+void motor_control_selectHandler(AsyncWebServerRequest* request)
+{
+  request->send(200, "text/html", motor_control_select_html);
 }
 
 void motor_1_controlHandler(AsyncWebServerRequest* request)
@@ -152,6 +157,7 @@ void setup()
   ws.onEvent(onWebSocketEvent);
   server.addHandler(&ws);
 
+  server.on("/", HTTP_GET, motor_control_selectHandler);
   server.on("/control/1", HTTP_GET, motor_1_controlHandler);
   server.on("/control/2", HTTP_GET, motor_2_controlHandler);
   server.begin();

@@ -2,6 +2,132 @@
 #ifndef PROGMEM_HTML_HPP
 #define PROGMEM_HTML_HPP
 
+const char* motor_control_select_html PROGMEM = R"rawliteral(
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wheel control</title>
+  <style>
+    :root{
+      --bg: #0f172a;
+      --card: #0b1220;
+      --accent: #06b6d4;
+      --text: #e6eef6;
+      --btn-size: 92px;
+      --gap: 14px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      background: linear-gradient(180deg, #071025 0%, #071a2a 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      box-sizing:border-box;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:16px;
+      padding:28px;
+      width:320px;
+      max-width:96vw;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      text-align:center;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+
+    h1{
+      margin:0 0 18px 0;
+      font-size:20px;
+      letter-spacing:0.4px;
+      color:var(--text);
+    }
+
+    .select{
+      display:flex;
+      flex-direction:column;
+      gap:var(--gap);
+      align-items:center;
+      justify-content:center;
+    }
+
+    button.wheel-btn{
+      width: 240px;
+      height: 90px;
+      border-radius: 20px;
+      border: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      color: var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:36px;
+      cursor:pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45), inset 0 -2px 6px rgba(0,0,0,0.25);
+      transition: transform 120ms ease, box-shadow 120ms ease;
+      outline: none;
+    }
+
+    button.wheel-btn:active{
+      transform: translateY(2px) scale(0.99);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.45), inset 0 -1px 4px rgba(0,0,0,0.20);
+    }
+
+    button.up {
+      background-image: linear-gradient(180deg, rgba(6,182,212,0.18), rgba(6,182,212,0.06));
+      border: 1px solid rgba(6,182,212,0.18);
+    }
+
+    button.down {
+      background-image: linear-gradient(180deg, rgba(239,68,68,0.12), rgba(239,68,68,0.04));
+      border: 1px solid rgba(239,68,68,0.12);
+    }
+
+    button.wheel-btn:focus{
+      box-shadow: 0 0 0 6px rgba(6,182,212,0.12), 0 10px 30px rgba(2,6,23,0.6);
+    }
+
+    @media (max-width:360px){
+      :root { --btn-size: 78px; --gap: 12px; }
+      h1 { font-size:18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" role="region" aria-label="Player select panel">
+      <h1>Player Select</h1>
+      <div class="select">
+        <button class="wheel-btn up" id="btn1" aria-label="Select wheel 1" title="P1">Player 1</button>
+        <button class="wheel-btn down" id="btn2" aria-label="Select wheel 2" title="P2">Player 2</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const btnSelect1 = document.getElementById('btn1');
+    const btnSelect2 = document.getElementById('btn2');
+
+    btnSelect1.addEventListener('click', () => { window.location.href = "http://192.168.4.1/control/1"; });
+    btnSelect2.addEventListener('click', () => { window.location.href = "http://192.168.4.1/control/2"; });
+  </script>
+</body>
+</html>
+)rawliteral";
+
 const char* motor_control_1_html PROGMEM = R"rawliteral(
 <!doctype html>
 <html lang="en">
@@ -118,7 +244,7 @@ const char* motor_control_1_html PROGMEM = R"rawliteral(
   </div>
 
   <script>
-    const socket = new WebSocket(`ws://192.168.1.1/ws`);
+    const socket = new WebSocket(`ws://192.168.4.1/ws`);
     let isPressed = false;
 
     function sendCommand(cmd) {
@@ -266,7 +392,7 @@ const char* motor_control_2_html PROGMEM = R"rawliteral(
   </div>
 
   <script>
-    const socket = new WebSocket(`ws://192.168.1.1/ws`);
+    const socket = new WebSocket(`ws://192.168.4.1/ws`);
     let isPressed = false;
 
     function sendCommand(cmd) {
